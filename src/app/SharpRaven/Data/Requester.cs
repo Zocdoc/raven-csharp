@@ -67,7 +67,7 @@ namespace SharpRaven.Data
                 throw new ArgumentNullException("ravenClient");
 
             this.ravenClient = ravenClient;
-            this.packet = ravenClient.PreparePacket(packet);
+            this.packet = packet;
             this.data = new RequestData(this);
 
 			this.webRequest = CreateWebRequest(ravenClient.CurrentDsn.SentryUri);

@@ -214,6 +214,16 @@ namespace SharpRaven
         /// </returns>
         public string Capture(SentryEvent @event)
         {
+            var packet = BuildPacket(@event);
+
+            var eventId = Send(packet);
+            
+            return eventId;
+        }
+
+
+        public JsonPacket BuildPacket(SentryEvent @event)
+        {
             if (@event == null)
                 throw new ArgumentNullException("event");
 
@@ -223,12 +233,12 @@ namespace SharpRaven
 
             var packet = this.jsonPacketFactory.Create(CurrentDsn.ProjectID, @event);
 
-            var eventId = Send(packet);
+            packet = PreparePacket(packet);
+
             RestartTrails();
 
-            return eventId;
+            return packet;
         }
-
 
 
         /// <summary>
@@ -349,7 +359,7 @@ namespace SharpRaven
         /// <returns>
         /// The <see cref="JsonPacket.EventID" /> of the successfully captured JSON packet, or <c>null</c> if it fails.
         /// </returns>
-        protected virtual string Send(JsonPacket packet)
+        public virtual string Send(JsonPacket packet)
         {
             Requester requester = null;
 
