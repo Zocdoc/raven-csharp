@@ -180,7 +180,7 @@ namespace SharpRaven.Nancy.UnitTests
             }
 
 
-            protected override string Send(JsonPacket packet)
+            public override string Send(JsonPacket packet)
             {
                 if (this.dsn != null)
                     return this.dsn.ToString();

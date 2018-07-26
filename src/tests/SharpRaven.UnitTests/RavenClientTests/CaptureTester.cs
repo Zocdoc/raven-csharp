@@ -144,10 +144,10 @@ namespace SharpRaven.UnitTests.RavenClientTests
 
 
         [Ignore]
-        public IRavenClient GetTestableRavenClient(string project)
+        public IRavenClient GetTestableRavenClient(string project, ISentryRequestFactory requestFactory = null, ISentryUserFactory userFactory = null)
         {
             var jsonPacketFactory = new TestableJsonPacketFactory(project);
-            return new TestableRavenClient(dsnUri, jsonPacketFactory);
+            return new TestableRavenClient(dsnUri, jsonPacketFactory, requestFactory, userFactory);
         }
 
 
@@ -311,8 +311,8 @@ namespace SharpRaven.UnitTests.RavenClientTests
 
         private class TestableRavenClient : RavenClient
         {
-            public TestableRavenClient(string dsn, IJsonPacketFactory jsonPacketFactory = null)
-                : base(dsn, jsonPacketFactory)
+            public TestableRavenClient(string dsn, IJsonPacketFactory jsonPacketFactory = null, ISentryRequestFactory requestFactory = null, ISentryUserFactory userFactory = null)
+                : base(dsn, jsonPacketFactory, requestFactory, userFactory)
             {
             }
 
@@ -320,7 +320,7 @@ namespace SharpRaven.UnitTests.RavenClientTests
             public JsonPacket LastPacket { get; private set; }
 
 
-            protected override string Send(JsonPacket packet)
+            public override string Send(JsonPacket packet)
             {
                 // TODO(dcramer): this is duped from RavenClient
                 packet = PreparePacket(packet);
@@ -330,7 +330,7 @@ namespace SharpRaven.UnitTests.RavenClientTests
 
 
 #if (!net40) && (!net35)
-            protected override Task<string> SendAsync(JsonPacket packet)
+            public override Task<string> SendAsync(JsonPacket packet)
             {
                 packet = PreparePacket(packet);
                 LastPacket = packet;

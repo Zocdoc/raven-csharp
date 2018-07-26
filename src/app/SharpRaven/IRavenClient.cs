@@ -121,6 +121,13 @@ namespace SharpRaven
         string Capture(SentryEvent @event);
 
 
+        /// <summary>Prepares the specified <paramref name="event"/> but does not send it to sentry</summary>
+        /// <param name="event">The event to prepare.</param>
+        /// <returns>
+        /// The <see cref="JsonPacket" /> of the prepared event.
+        /// </returns>
+        JsonPacket BuildPacket(SentryEvent @event);
+
         /// <summary>
         /// Captures the <see cref="Exception" />.
         /// </summary>

@@ -55,15 +55,9 @@ namespace SharpRaven
         /// </returns>
         public async Task<string> CaptureAsync(SentryEvent @event)
         {
-            @event.Tags = MergeTags(@event.Tags);
-            if (!this.breadcrumbs.IsEmpty())
-                @event.Breadcrumbs = this.breadcrumbs.ToList();
-            
-            var packet = this.jsonPacketFactory.Create(CurrentDsn.ProjectID, @event);
-
+            var packet = BuildPacket(@event);
             var eventId = await SendAsync(packet);
-            RestartTrails();
-
+            
             return eventId;
         }
 
@@ -136,7 +130,7 @@ namespace SharpRaven
         /// <returns>
         /// The <see cref="JsonPacket.EventID" /> of the successfully captured JSON packet, or <c>null</c> if it fails.
         /// </returns>
-        protected virtual async Task<string> SendAsync(JsonPacket packet)
+        public virtual async Task<string> SendAsync(JsonPacket packet)
         {
             Requester requester = null;
 

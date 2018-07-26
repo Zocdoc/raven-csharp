@@ -157,6 +157,12 @@ namespace SharpRaven
         }
 
 
+        public JsonPacket BuildPacket(SentryEvent @event)
+        {
+            return new JsonPacket("");
+        }
+
+
         /// <summary>
         /// Captures the event.
         /// </summary>

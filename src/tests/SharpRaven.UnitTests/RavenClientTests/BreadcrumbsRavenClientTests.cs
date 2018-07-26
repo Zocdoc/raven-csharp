@@ -44,6 +44,7 @@ namespace SharpRaven.UnitTests.RavenClientTests {
             var breadcrumbsRecord = new Breadcrumb("foo");
 
             var jsonPacketFactory = Substitute.For<IJsonPacketFactory>();
+            jsonPacketFactory.Create(null, null).ReturnsForAnyArgs(new JsonPacket(""));
 
             IRavenClient ravenClient = new RavenClientTestable(TestHelper.DsnUri, jsonPacketFactory);
 
@@ -58,6 +59,7 @@ namespace SharpRaven.UnitTests.RavenClientTests {
         [Test]
         public void Should_Call_JsonFactory_to_Breadcrumbs_Null_When_NotUsed() {
             var jsonPacketFactory = Substitute.For<IJsonPacketFactory>();
+            jsonPacketFactory.Create(null, null).ReturnsForAnyArgs(new JsonPacket(""));
 
             IRavenClient ravenClient = new RavenClientTestable(TestHelper.DsnUri, jsonPacketFactory);
 
@@ -70,6 +72,7 @@ namespace SharpRaven.UnitTests.RavenClientTests {
         [Test]
         public void Should_Call_JsonFactory_to_Breadcrumbs_Null_When_Not_Informed() {
             var jsonPacketFactory = Substitute.For<IJsonPacketFactory>();
+            jsonPacketFactory.Create(null, null).ReturnsForAnyArgs(new JsonPacket(""));
 
             IRavenClient ravenClient = new RavenClientTestable(TestHelper.DsnUri, jsonPacketFactory);
 
@@ -84,6 +87,7 @@ namespace SharpRaven.UnitTests.RavenClientTests {
         [Test]
         public void Should_RestartTrails_When_Call_ResetTrails() {
             var jsonPacketFactory = Substitute.For<IJsonPacketFactory>();
+            jsonPacketFactory.Create(null, null).ReturnsForAnyArgs(new JsonPacket(""));
 
             IRavenClient ravenClient = new RavenClientTestable(TestHelper.DsnUri, jsonPacketFactory);
 
@@ -99,6 +103,7 @@ namespace SharpRaven.UnitTests.RavenClientTests {
         [Test]
         public void Shouldnot_Register_Trails_When_IgnoreBreadcrumb() {
             var jsonPacketFactory = Substitute.For<IJsonPacketFactory>();
+            jsonPacketFactory.Create(null, null).ReturnsForAnyArgs(new JsonPacket(""));
 
             IRavenClient ravenClient = new RavenClientTestable(TestHelper.DsnUri, jsonPacketFactory);
             ravenClient.IgnoreBreadcrumbs = true;
@@ -117,6 +122,7 @@ namespace SharpRaven.UnitTests.RavenClientTests {
             var breadcrumbsRecord = new Breadcrumb("foo");
 
             var jsonPacketFactory = Substitute.For<IJsonPacketFactory>();
+            jsonPacketFactory.Create(null, null).ReturnsForAnyArgs(new JsonPacket(""));
 
             IRavenClient ravenClient = new RavenClientTestable(TestHelper.DsnUri, jsonPacketFactory);
 
@@ -138,7 +144,7 @@ namespace SharpRaven.UnitTests.RavenClientTests {
 
             }
 
-            protected override string Send(JsonPacket packet) {
+            public override string Send(JsonPacket packet) {
                 return null;
             }
         }
