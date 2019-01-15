@@ -42,6 +42,7 @@ namespace SharpRaven.Data
     public class SentryMessage
     {
         private readonly string message;
+        private readonly string formatted;
         private readonly object[] parameters;
 
 
@@ -54,6 +55,7 @@ namespace SharpRaven.Data
             : this(format)
         {
             this.parameters = parameters;
+            this.formatted = string.Format(format, parameters);
         }
 
 
@@ -79,6 +81,19 @@ namespace SharpRaven.Data
             get { return this.message; }
         }
 
+
+        /// <summary>
+        /// Gets the formatted message.
+        /// </summary>
+        /// <value>
+        /// The message.
+        /// </value>
+        [JsonProperty(PropertyName = "formatted", NullValueHandling = NullValueHandling.Ignore)]
+        public string Formatted
+        {
+            get { return this.formatted; }
+        }
+
         /// <summary>
         /// Gets the arguments.
         /// </summary>
@@ -100,19 +115,7 @@ namespace SharpRaven.Data
         /// </returns>
         public override string ToString()
         {
-            if (this.message != null && this.parameters != null && this.parameters.Any())
-            {
-                try
-                {
-                    return String.Format(this.message, this.parameters);
-                }
-                catch
-                {
-                    return this.message;
-                }
-            }
-
-            return this.message ?? String.Empty;
+            return this.formatted ?? this.message ?? string.Empty;
         }
 
         #region Operators
